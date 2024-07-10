@@ -1,0 +1,119 @@
+<%= render "modal/modal", locals: { content: "blogs/add_new_coauthor_modal", id: 'add-new-coauthor-modal'} %>
+
+<div class="bg-gray-900 min-h-screen"
+     data-controller="blog">
+  <section class="relative bg-white dark:bg-gray-900">
+    <div class="absolute h-full w-full">
+      <% if @is_author %>
+        <%= form_with model:@blog, url: blog_path(@blog) do |f| %>
+          <%= f.label :background, class: 'absolute z-50 text-white right-0 m-8 w-6 h-6' do %>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+            </svg>
+            <%= f.file_field :background, class: 'absolute w-6 top-0 left-0 opacity-0 cursor-pointer', id: 'background', data: { action: 'input->blog#submitForm'} %>
+          <% end %>
+          <button type="submit" class="hidden" id='background-submit'></button>
+        <% end %>
+      <% end %>
+      <% if @blog.background.present? %>
+        <%= image_tag @blog.background, class: 'absolute object-cover min-w-full h-full brightness-50' %>
+      <% else %>
+        <img class="absolute object-cover min-w-full h-full brightness-50" src="https://images.unsplash.com/photo-1454496522488-7a8e488e8606?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8bW91bnRhaW5zfGVufDB8fDB8fHww" alt="background">
+      <% end %>
+      <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black"></div>
+    </div>
+    <div class="py-8 px-4 mx-auto max-w-screen-3xl text-center lg:py-16 z-10 relative">
+      <% if @is_author %>
+        <%= form_with model:@blog, url: blog_path(@blog) do |f| %>
+          <div class="relative flex justify-center items-center">
+            <div class="relative w-2/4 flex justify-center items-center">
+              <%= f.text_field :name, id: 'name', data: {action: 'blur->blog#submitForm'}, class: 'bg-transparent border-transparent text-center mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white'%>
+              <button type="submit" class="hidden absolute right-0 ml-8" id='name-submit'>
+              </button>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white"><%= @blog.name %></h1>
+      <% end %>
+
+      <% if @is_author %>
+        <%= form_with model:@blog, url: blog_path(@blog) do |f| %>
+          <div class="relative flex justify-center items-center">
+            <div class="relative w-2/4 flex justify-center items-center h-full">
+              <%= f.text_field :description, id: 'description', data: {action: 'focus->blur#submitForm'}, class: 'border-transparent bg-transparent text-center mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-200'%>
+              <button type="submit" class="hidden absolute right-0 ml-8 " id="description-submit">
+              </button>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <p class="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-200"><%= @blog.description %></p>
+      <% end %>
+      <div class="flex justify-end items-end">
+        <%= link_to profile_path(@author.profile) do %>
+          <div class="flex items-center gap-6 max-w-sm text-white">
+              <div class="flex flex-col justify-center h-24 space-y-2">
+                <p class="text-sm text-gray-500 dark:text-gray-400 self-end">Made by</p>
+                <h3 class="text-md font-semibold"><%= @author.profile.full_name %></h3>
+              </div>
+              <span class="relative flex shrink-0 overflow-hidden rounded-full h-24 w-24">
+                <%= image_tag url_for(@author.profile.avatar), class: 'flex h-full w-full items-center justify-center rounded-full bg-muted' %>
+              </span>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </section>
+  <div class="relative flex flex-col items-center mt-6">
+    <% if @is_author %>
+      <div class="absolute right-0 mr-6">
+        <%= link_to "Create a new post", new_blog_post_path(@blog.id), class: 'text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800' %>
+      </div>
+    <% end %>
+    <h1 class="text-center mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 dark:text-white">Posts</h1>
+    <div class="max-w-screen-xl grid grid-cols-4 gap-6">
+      <% @posts.each do |post| %>
+        <div class="max-w-sm p-6 border border-gray-200 rounded-lg shadow dark:border-gray-700 bg-gray-800 flex flex-col justify-between">
+          <div class="">
+            <%= link_to "#{post.title.truncate(50)}", blog_post_path(@blog, post), class: 'mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white break-words' %>
+            <p class="mb-3 break-words font-normal text-gray-700 dark:text-gray-400"><%= post.sanitized_body.truncate(150) %></p>
+          </div>
+          <div>
+              <%= link_to blog_post_path(@blog, post), class: 'inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800' do %>
+                Read more
+                <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                </svg>
+              <% end %>
+            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Created at <%= post.created_at %></p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <div class="absolute right-0 mt-16 text-white mr-8 text-2xl">
+      <div class="flex justify-between">
+      <h1>Co-authors</h1>
+      <% if @is_author %>
+        <button type="button" class="ml-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        data-action="blog#openAddNewCoauthorModal">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+          </svg>
+          <span class="sr-only">Icon description</span>
+        </button>
+      <% end %>
+      </div>
+      <div class="flex flex-col">
+        <% @blog.co_authors.each do |co_author| %>
+          <%= link_to profile_path(co_author.user.profile) do %>
+            <div class="flex space-x-2">
+              <%= image_tag co_author.user.profile.avatar, class: 'rounded-full w-6 h-6' %>
+              <span class=""><%= co_author.user.profile.username %></span>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

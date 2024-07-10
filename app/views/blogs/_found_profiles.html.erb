@@ -1,0 +1,30 @@
+<% if co_authors.present? %>
+  <% co_authors.each do |profile| %>
+    <li class="flex items-center justify-between rounded-md bg-gray-800 p-3 text-white hover:bg-gray-700">
+      <div class="flex items-center gap-3">
+        <%= image_tag profile.avatar, class: "relative flex shrink-0 overflow-hidden rounded-full h-10 w-10" %>
+        <div>
+          <h4 class="font-medium"><%= profile.full_name %></h4>
+          <p class="text-sm text-gray-400">@<%= profile.username %></p>
+        </div>
+      </div>
+      <%= button_to blog_add_coauthor_path(blog_id, profile.user.id), method: :post, onclick: "this.form.requestSubmit()" do %>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="h-5 w-5"
+        >
+          <path d="M5 12h14"></path>
+          <path d="M12 5v14"></path>
+        </svg>
+      <% end %>
+    </li>
+  <% end %>
+<% end %>

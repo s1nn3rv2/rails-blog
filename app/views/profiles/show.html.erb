@@ -1,0 +1,48 @@
+<div class="bg-gray-800 min-h-screen">
+  <div class="bg-gray-900 py-12 text-white">
+    <div class="container mx-auto px-4 md:px-6">
+      <div class="flex items-center space-x-4">
+        <%= image_tag @profile.avatar, class: 'relative flex shrink-0 overflow-hidden rounded-full h-16 w-16' %>
+        <div>
+          <h1 class="text-2xl font-bold"><%= @profile.full_name %></h1>
+          <p class="text-gray-500 dark:text-gray-400">@<%= @profile.username %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container mx-auto px-4 md:px-6 py-8 text-white">
+    <h2 class="text-xl font-bold mb-4">Recent blog posts</h2>
+    <div class="grid grid-cols-6 space-x-6">
+      <div class="col-span-5 grid gap-6 grid-cols-4">
+        <% @profile.user.posts.order(created_at: :desc).each do |post| %>
+          <div class="bg-white dark:bg-gray-900 rounded-lg shadow-sm">
+            <div class="p-4 md:p-6 flex flex-col h-full justify-between">
+              <div>
+                <%= link_to blog_post_path(post.blog, post) do %>
+                  <h3 class="text-lg font-semibold mb-2 break-words"><%= post.title.truncate(50) %></h3>
+                <% end %>
+                <p class="text-gray-500 dark:text-gray-400 break-words">
+                  <%= post.sanitized_body.truncate(150) %>
+                </p>
+              </div>
+              <div class="mt-6">
+                <p class="text-gray-300">Posted on blog <%= link_to "#{post.blog.name}", blog_path(post.blog), class: 'text-white hover:underline' %></p>
+                <p class="text-gray-300">Created on <%= post.created_at.strftime('%F') %></p>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <div class="col-span-1">
+        <h2 class="text-xl font-bold mb-4">Blogs</h2>
+        <ul>
+          <% @profile.user.blogs.each do |blog| %>
+            <li>
+              <%= link_to blog.name, blog_path(blog), class: "text-blue-400 hover:underline" %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

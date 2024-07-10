@@ -1,0 +1,34 @@
+<div class="w-full max-w-md rounded-lg bg-gray-900 p-6 shadow-lg border-gray-700 border"
+     data-controller="add-new-coauthor-modal"
+>
+  <div class="mb-6">
+    <h2 class="text-2xl font-bold text-white">Add Co-Author</h2>
+    <p class="text-gray-400">Search for an author to add as a co-author to your blog post.</p>
+  </div>
+  <div class="mb-6">
+    <%= form_with url: profiles_search_path, method: :post do |f| %>
+      <%= f.label :co_author_key, "Search", class: 'sr-only' %>
+      <div class="relative mt-1 lg:w-96">
+        <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+          <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"> <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/> </svg>
+        </div>
+        <%= f.search_field :co_author_key, class: "flex h-10 border border-input px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full rounded-md bg-gray-800 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 indent-6", oninput: "this.form.requestSubmit()"  %>
+        <%= f.text_field :blog_id, class: 'hidden', value: "#{@blog.id}" %>
+        <%= f.submit class: 'hidden', id: 'blog-search-submit' %>
+      </div>
+    <% end %>
+  </div>
+  <div class="max-h-[300px] overflow-auto text-white" id="blog_co_author_results">
+    <ul class="space-y-2">
+      <%= render partial: "blogs/found_profiles", locals: { co_authors: nil, blog: @blog } %>
+    </ul>
+  </div>
+  <div class="mt-6 flex justify-end gap-2">
+    <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 text-white">
+      Cancel
+    </button>
+    <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 bg-primary-500 text-white hover:bg-primary-600 focus:ring-primary-500">
+      Add Co-Author
+    </button>
+  </div>
+</div>
