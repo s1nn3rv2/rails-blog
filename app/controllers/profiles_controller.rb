@@ -2,7 +2,11 @@ class ProfilesController < ApplicationController
   before_action :authenticate_user!, except: [:show]
 
   def search
-    results = params[:co_author_key].empty? ? [] : Profile.where("CONCAT('@', lower(username)) LIKE ?", "%#{params[:co_author_key]}%").limit(10)
+    blog = Blog.find(params[:blog_id])
+
+    existing_co_author_ids = blog.co_authors.pluck(:user_id)
+
+    results = params[:co_author_key].empty? ? [] : Profile.where("CONCAT('@', lower(username)) LIKE ? AND user_id not in (?)", "%#{params[:co_author_key]}%", existing_co_author_ids).limit(10)
 
     respond_to do |format|
       format.turbo_stream do

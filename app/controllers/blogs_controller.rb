@@ -53,8 +53,17 @@ class BlogsController < ApplicationController
 
   def add_new_coauthor
     blog = current_user.blogs.find(params[:blog_id])
-    @co_author = blog.co_authors.build(user: User.find_by_id(params[:id]))
-    if @co_author.save!
+    co_author = blog.co_authors.build(user: User.find_by_id(params[:id]))
+    if co_author.save!
+      redirect_to blog_path(blog)
+    end
+  end
+
+  def remove_coauthor
+    blog = current_user.blogs.find(params[:blog_id])
+    co_author = blog.co_authors.find(params[:id])
+    co_author.destroy!
+    if blog.save!
       redirect_to blog_path(blog)
     end
   end

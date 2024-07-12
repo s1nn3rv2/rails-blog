@@ -12,14 +12,14 @@
           <div class="bg-gray-900 rounded-md overflow-hidden shadow-md">
             <%= link_to blog_path(blog) do %>
               <% if blog.background.present? %>
-                <%= image_tag blog.background, class: 'w-full h-40 object-cover' if blog&.background.present? %>
+                <%= image_tag blog.background, class: 'w-full h-40 object-cover' if blog.background.present? %>
               <% end %>
               <div class="p-4">
                 <h3 class="text-lg font-semibold mb-2"><%= blog.name %></h3>
                 <p class="text-gray-400 line-clamp-2">
                   <%= blog.description %>
                 </p>
-                <div class="mt-4 text-sm text-gray-400">Last updated at <%= blog.last_updated_at %></div>
+                <div class="mt-4 text-sm text-gray-400">Last updated at <%= blog.last_updated_at.strftime('%F') %></div>
               </div>
             <% end %>
           </div>

@@ -1,8 +1,8 @@
 require 'icodi'
 
 class Profile < ApplicationRecord
-  # extend FriendlyId
-  # friendly_id :username, use: :slugged
+  #extend FriendlyId
+  #friendly_id :username, use: :slugged
 
   after_create :attach_default_avatar
 

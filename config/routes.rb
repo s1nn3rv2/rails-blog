@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   end
 
   post '/blogs/:blog_id/add_coauthor/:id' => 'blogs#add_new_coauthor', as: "blog_add_coauthor"
+  post '/blogs/:blog_id/remove_coauthor/:id' => 'blogs#remove_coauthor', as: "blog_remove_coauthor"
 
   get '/search/results' => 'search#index'
   get '/search' => 'search#search'

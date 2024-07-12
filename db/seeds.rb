@@ -1,7 +1,7 @@
 require 'faker'
 
-# Create 60 users
-60.times do
+# Create 10 users
+10.times do
   user = User.create!(
     email: Faker::Internet.email,
     password: Faker::Internet.password,
@@ -26,7 +26,7 @@ require 'faker'
     rand(5..10).times do
       blog.posts.create!(
         title: Faker::Book.title,
-        body: Faker::Lorem.paragraphs(number: 5),
+        body: Faker::Lorem.paragraphs(number: 5, supplemental: true),
         user: user,
       )
     end

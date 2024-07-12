@@ -86,32 +86,38 @@
                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
                 </svg>
               <% end %>
-            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Created at <%= post.created_at %></p>
+            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Created at <%= post.created_at.strftime('%F') %></p>
           </div>
         </div>
       <% end %>
     </div>
     <div class="absolute right-0 mt-16 text-white mr-8 text-2xl">
       <div class="flex justify-between">
-      <h1>Co-authors</h1>
-      <% if @is_author %>
-        <button type="button" class="ml-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        data-action="blog#openAddNewCoauthorModal">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-          </svg>
-          <span class="sr-only">Icon description</span>
-        </button>
-      <% end %>
+        <h1>Co-authors</h1>
+        <% if @is_author %>
+          <button type="button" class="ml-4 text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center me-2 dark:focus:ring-blue-800 absolute right-0"
+          data-action="click->blog#openAddNewCoauthorModal">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-3">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+            <span class="sr-only">Add new coauthor</span>
+          </button>
+        <% end %>
       </div>
       <div class="flex flex-col">
         <% @blog.co_authors.each do |co_author| %>
-          <%= link_to profile_path(co_author.user.profile) do %>
-            <div class="flex space-x-2">
+          <div class="flex space-x-2">
+            <%= link_to profile_path(co_author.user.profile), class: 'flex space-x-2' do %>
               <%= image_tag co_author.user.profile.avatar, class: 'rounded-full w-6 h-6' %>
-              <span class=""><%= co_author.user.profile.username %></span>
-            </div>
-          <% end %>
+              <span class="pr-8"><%= co_author.user.profile.username.truncate(16) %></span>
+            <% end %>
+            <%= button_to blog_remove_coauthor_path(blog_id: @blog.id, id: co_author.id), class: 'ml-4 text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center me-2 dark:focus:ring-blue-800 absolute right-0' do %>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-3">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+              </svg>
+              <span class="sr-only">Remove coauthor</span>
+            <% end %>
+          </div>
         <% end %>
       </div>
     </div>

@@ -1,6 +1,8 @@
 require 'open-uri'
 
 class Blog < ApplicationRecord
+  paginates_per 24
+
   after_create :attach_default_background
 
   enum :visibility, { visible: 0, hidden: 1 }
