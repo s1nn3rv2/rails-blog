@@ -1,9 +1,9 @@
 source "https://rubygems.org"
 
-ruby "3.4.2"
+ruby "3.4.5"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 8.0.1"
+gem "rails", "~> 8.0.3"
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
@@ -48,6 +48,7 @@ group :development, :test do
   gem "debug", platforms: %i[ mri windows ]
   gem 'rspec-rails', '~> 6.1.0'
   gem 'factory_bot_rails'
+  gem 'rubocop', require: false
   gem 'shoulda-matchers', '~> 6.0'
 end
 
