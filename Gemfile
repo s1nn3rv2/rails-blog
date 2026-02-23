@@ -1,4 +1,5 @@
-source "https://rubygems.org"
+# frozen_string_literal: true
+source 'https://rubygems.org' # rubocop:disable Layout/EmptyLineAfterMagicComment
 
 ruby "3.4.5"
 
