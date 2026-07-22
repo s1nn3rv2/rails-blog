@@ -24,10 +24,7 @@
           <div>Published on <%= @post.created_at.strftime('%F') %></div>
         </div>
       </div>
-      <%
-        sanitized_text = @post.body
-      %>
-      <p><%= raw(sanitized_text) %></p>
+      <%= @post.body %>
     </article>
   </div>
 </div>

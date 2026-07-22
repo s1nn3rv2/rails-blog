@@ -1,11 +1,36 @@
 @import "tailwindcss";
 
-/*
+/* Trix Editor styling */
+trix-toolbar {
+  @apply border border-gray-300 dark:border-gray-700 rounded-t-lg bg-gray-50 dark:bg-gray-900 p-2 w-full block;
+}
 
-@layer components {
-  .btn-primary {
-    @apply py-2 px-4 bg-blue-200;
+trix-toolbar .trix-button-group {
+  @apply border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800 rounded-md;
+}
+
+trix-toolbar .trix-button {
+  @apply text-gray-700 dark:text-gray-300;
+  &:hover {
+    @apply bg-gray-100 dark:bg-gray-700;
+  }
+  &.trix-active {
+    @apply bg-blue-100 dark:bg-blue-900 text-blue-900 dark:text-blue-100;
   }
 }
 
-*/
+/* Invert black SVG icons in dark mode so they appear white/light-gray */
+@media (prefers-color-scheme: dark) {
+  trix-toolbar .trix-button--icon::before {
+    filter: invert(1) brightness(1.5);
+  }
+}
+
+.dark trix-toolbar .trix-button--icon::before {
+  filter: invert(1) brightness(1.5);
+}
+
+trix-editor {
+  @apply rounded-b-lg border border-t-0 border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-4 min-h-[300px] outline-none!;
+}
+

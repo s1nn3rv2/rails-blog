@@ -84,8 +84,6 @@ gem "icodi", "~> 0.1.4"
 
 gem "friendly_id", "~> 5.7.0"
 
-gem "tinymce-rails", "~> 8.8.0"
-
 gem "rails-html-sanitizer", "~> 1.7.1"
 
 gem "kaminari", "~> 1.2.2"
