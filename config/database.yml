@@ -79,6 +79,5 @@ test:
 #
 production:
   <<: *default
-  database: ruby_on_rails_blog_production
-  username: ruby_on_rails_blog
-  password: <%= ENV["RUBY_ON_RAILS_BLOG_DATABASE_PASSWORD"] %>
+  url: <%= ENV["DATABASE_URL"] %>
+
