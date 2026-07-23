@@ -17,6 +17,7 @@ require 'faker'
     blog = user.blogs.create!(
       name: Faker::Book.title,
       description: Faker::Lorem.paragraph,
+      visibility: :visible,
       user: user
     )
 

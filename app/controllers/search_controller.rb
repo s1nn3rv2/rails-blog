@@ -2,7 +2,7 @@ class SearchController < ApplicationController
   def index
     page = params[:page].present? ? params[:page] : 1
     key = "%#{params[:key]}%"
-    @blogs = Blog.where("lower(name) LIKE ?", key.downcase).page(page)
+    @blogs = Blog.visible.where("lower(name) LIKE ?", key.downcase).page(page)
     @pages_count = @blogs.total_pages
   end
 

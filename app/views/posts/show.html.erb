@@ -17,7 +17,7 @@
         </div>
       </nav>
       <div class="space-y-4 not-prose">
-        <h1 class="text-4xl font-extrabold tracking-tight lg:text-5xl break-words"><%= @post.title %></h1>
+        <h1 class="text-4xl font-extrabold tracking-tight lg:text-5xl break-words text-white"><%= @post.title %></h1>
         <div class="flex items-center space-x-4 text-sm text-gray-400 dark:text-gray-400">
           <%= link_to "#{@post.user.profile.full_name}", profile_path(@post.user.profile), class: 'text-gray-200 hover:underline' %>
           <div>•</div>

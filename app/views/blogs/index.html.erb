@@ -1,0 +1,51 @@
+<div class="bg-gray-950 dark:bg-gray-950 min-h-screen text-white">
+  <% if @blogs.current_page == 1 %>
+    <section class="relative bg-gray-900 overflow-hidden py-16 px-4 sm:px-6 lg:px-8 text-center border-b border-gray-800">
+      <div class="absolute inset-0 z-0 opacity-30">
+        <img class="object-cover w-full h-full" src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1600&auto=format&fit=crop&q=60" alt="hero background">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-gray-950"></div>
+      </div>
+      <div class="relative z-10 max-w-4xl mx-auto">
+        <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl text-white mb-4">
+          Explore Blogs
+        </h1>
+        <p class="text-lg text-gray-400 max-w-2xl mx-auto mb-8">
+          Discover stories, perspectives, and expertise from writers across our community.
+        </p>
+        <% if user_signed_in? %>
+          <%= link_to "Create your own Blog", new_blog_path, class: "inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition duration-150 ease-in-out focus:outline-none focus:ring-4 focus:ring-blue-800" %>
+        <% end %>
+      </div>
+    </section>
+  <% end %>
+
+  <div class="container mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <% if @blogs.any? %>
+      <%= turbo_frame_tag "blogs-list-page-#{@blogs.current_page}" do %>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <% @blogs.each do |blog| %>
+            <%= render 'blogs/blog_card', blog: blog %>
+          <% end %>
+        </div>
+
+        <% if @blogs.next_page.present? %>
+          <%= turbo_frame_tag "blogs-list-page-#{@blogs.next_page}", loading: "lazy", src: blogs_path(page: @blogs.next_page) do %>
+            <div class="flex justify-center py-6">
+              <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% else %>
+      <% if @blogs.current_page == 1 %>
+        <div class="text-center py-16 bg-gray-900 border border-gray-800 rounded-xl max-w-xl mx-auto">
+          <h3 class="text-xl font-bold text-white mb-2">No blogs found</h3>
+          <p class="text-gray-400 mb-6 px-4">Be the first to share your stories with the community.</p>
+          <% if user_signed_in? %>
+            <%= link_to "Create a Blog", new_blog_path, class: "inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition" %>
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

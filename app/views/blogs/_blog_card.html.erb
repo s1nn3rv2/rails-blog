@@ -1,0 +1,47 @@
+<div class="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col justify-between hover:border-gray-700 transition duration-200">
+  <div class="relative h-48 w-full overflow-hidden">
+    <% if blog.background.present? %>
+      <%= image_tag blog.background, class: 'absolute object-cover w-full h-full brightness-75 hover:scale-105 transition duration-500' %>
+    <% else %>
+      <img class="absolute object-cover w-full h-full brightness-75 hover:scale-105 transition duration-500" src="https://images.unsplash.com/photo-1454496522488-7a8e488e8606?w=500&auto=format&fit=crop&q=60" alt="default background">
+    <% end %>
+  </div>
+
+  <div class="p-6 flex-grow flex flex-col justify-between">
+    <div class="mb-6">
+      <h3 class="text-2xl font-bold text-white mb-2 line-clamp-1">
+        <%= link_to blog.name, blog_path(blog), data: { turbo_frame: "_top" }, class: 'hover:text-blue-400 transition duration-150' %>
+      </h3>
+      <p class="text-gray-400 text-sm line-clamp-3 mb-4">
+        <%= blog.description.presence || "No description provided." %>
+      </p>
+    </div>
+
+    <div class="flex items-center justify-between border-t border-gray-800 pt-4 mt-auto">
+      <div class="flex items-center space-x-3">
+        <% if blog.user&.profile&.avatar&.attached? %>
+          <%= image_tag blog.user.profile.avatar, class: 'w-8 h-8 rounded-full object-cover border border-gray-700' %>
+        <% else %>
+          <div class="w-8 h-8 rounded-full bg-blue-950 flex items-center justify-center border border-gray-700">
+            <span class="text-xs font-bold text-blue-200"><%= blog.user&.profile&.username&.first(2)&.upcase || "BL" %></span>
+          </div>
+        <% end %>
+        <div class="text-sm">
+          <p class="font-medium text-white line-clamp-1"><%= blog.user&.profile&.full_name || "Unknown Author" %></p>
+          <p class="text-xs text-gray-500">@<%= blog.user&.profile&.username || "anonymous" %></p>
+        </div>
+      </div>
+
+      <div class="text-right text-xs text-gray-500">
+        <p><%= pluralize(blog.posts.count, 'post') %></p>
+        <p class="mt-0.5"><%= pluralize(blog.views, 'view') %></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="px-6 pb-6 pt-0">
+    <%= link_to blog_path(blog), data: { turbo_frame: "_top" }, class: 'w-full inline-flex items-center justify-center px-4 py-2 border border-gray-800 rounded-lg text-sm font-medium text-white bg-gray-800 hover:bg-blue-600 hover:border-transparent transition duration-150 ease-in-out' do %>
+      View Blog
+    <% end %>
+  </div>
+</div>

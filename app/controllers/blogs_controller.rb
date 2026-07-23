@@ -2,7 +2,9 @@ class BlogsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
 
   def index
-    @blogs = Blog.all
+    page = params[:page].present? ? params[:page] : 1
+    @blogs = Blog.visible.page(page)
+    @pages_count = @blogs.total_pages
   end
 
   def show
