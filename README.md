@@ -3,6 +3,8 @@
 A simple blogging app in Ruby on Rails where users can create and manage their own blogs, write posts and
 discover content from other people.
 
+**Live demo:** https://rails-blog-8o25.onrender.com
+
 ## Features
 
 - User authentication via Devise

@@ -16,6 +16,16 @@ class Blog < ApplicationRecord
   has_many :posts, dependent: :destroy
   has_many :co_authors, dependent: :destroy
 
+  def can_write?(user)
+    return false if user.nil?
+    user_id == user.id || co_authors.any? { |ca| ca.user_id == user.id && ca.has_permission?(:write) }
+  end
+
+  def can_manage?(user)
+    return false if user.nil?
+    user_id == user.id
+  end
+
   def latest_updated_post
     posts.order(updated_at: :desc).first
   end

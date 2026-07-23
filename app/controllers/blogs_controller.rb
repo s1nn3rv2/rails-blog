@@ -12,6 +12,7 @@ class BlogsController < ApplicationController
 
     @author = @blog.user
     @is_author = @blog.user_id == current_user&.id
+    @can_write = @blog.can_write?(current_user)
 
     @posts = @blog.posts.order(created_at: :desc)
   end
@@ -55,7 +56,10 @@ class BlogsController < ApplicationController
 
   def add_new_coauthor
     blog = current_user.blogs.find(params[:blog_id])
-    co_author = blog.co_authors.build(user: User.find_by_id(params[:id]))
+    co_author = blog.co_authors.build(
+      user: User.find_by_id(params[:id]),
+      permissions: CoAuthor::PERMISSIONS[:write]
+    )
     if co_author.save!
       redirect_to blog_path(blog)
     end

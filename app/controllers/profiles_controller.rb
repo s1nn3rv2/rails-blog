@@ -4,9 +4,22 @@ class ProfilesController < ApplicationController
   def search
     blog = Blog.find(params[:blog_id])
 
-    existing_co_author_ids = blog.co_authors.pluck(:user_id)
+    excluded_user_ids = blog.co_authors.pluck(:user_id) + [blog.user_id]
 
-    results = params[:co_author_key].empty? ? [] : Profile.where("CONCAT('@', lower(username)) LIKE ? AND user_id not in (?)", "%#{params[:co_author_key]}%", existing_co_author_ids).limit(10)
+    results = if params[:co_author_key].blank?
+                []
+              else
+                key = "%#{params[:co_author_key].downcase}%"
+                Profile.where(
+                  "user_id NOT IN (?) AND (
+                    lower(username) LIKE ? OR
+                    lower(first_name) LIKE ? OR
+                    lower(last_name) LIKE ? OR
+                    lower(CONCAT(first_name, ' ', last_name)) LIKE ?
+                  )",
+                  excluded_user_ids, key, key, key, key
+                ).limit(10)
+              end
 
     respond_to do |format|
       format.turbo_stream do
