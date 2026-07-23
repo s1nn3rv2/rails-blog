@@ -1,24 +1,39 @@
-# README
+# Blogapp
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A simple blogging app in Ruby on Rails where users can create and manage their own blogs, write posts and
+discover content from other people.
 
-Things you may want to cover:
+## Features
 
-* Ruby version
+- User authentication via Devise
+- Create and manage blogs with custom cover images
+- Write rich-text posts using the Trix editor (via Action Text)
+- Browse and search all public blogs
+- User profiles
+- View counters on blogs and posts
 
-* System dependencies
+## Stack
 
-* Configuration
+- **Ruby on Rails 8.1**
+- **PostgreSQL**
+- **Hotwire** (Turbo + Stimulus)
+- **Tailwind CSS**
+- **Active Storage** for image uploads
+- **Action Text** for rich-text post editing
+- **Devise** for authentication
+- **Kaminari** for pagination
 
-* Database creation
+## Getting started
 
-* Database initialization
+### Requirements
 
-* How to run the test suite
+- Ruby 3.4
+- PostgreSQL
 
-* Services (job queues, cache servers, search engines, etc.)
+### Setup
 
-* Deployment instructions
-
-* ...
+```bash
+bundle install
+rails db:setup
+rails server
+```
